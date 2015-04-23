@@ -1,0 +1,75 @@
+/******************GLOBAL**************************/
+@-ms-viewport {
+    width: device-width;
+}
+
+html { 
+	width:100%; height:100%;
+	overflow-x:hidden;
+	-webkit-text-size-adjust:100%; 
+}
+
+* { 
+	margin:0; padding:0; 
+	-webkit-box-sizing:border-box; box-sizing:border-box;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-touch-action:none;
+}
+
+img { 
+    border:none; 
+}
+
+body {
+	width:100%;	height:100%;
+    overflow:hidden;
+    -webkit-user-select:none;
+}
+
+input,textarea {
+    -webkit-user-select:text;
+    -moz-user-select:text;
+}
+
+::selection { 
+	background:#aaa; 
+	color:#fff; 
+}
+
+a:focus, a:active, a:hover { 
+    outline:0; 
+}
+#robo{
+    display:inline-block;
+    position:absolute;
+    top:25%; left:50%;
+    margin-left:-54px;
+    background: url('../images/bot-orng.png') no-repeat;
+    width:109px; height:178px;
+}
+#playBtn{
+    display:none;
+    position:absolute;
+    top:65%; left:50%;
+    margin-left:-108px;
+    background: url('../images/play.png') no-repeat;
+    width:217px; height:63px;
+    cursor:pointer;
+}
+#loading{
+    display:inline-block;
+    position:absolute;
+    top:65%; left:50%;
+    margin-left:-76px;
+    background: url('../images/load.png') no-repeat;
+    width:152px; height:35px;
+}
+
+#content {
+    display:block;
+    width:100%; height:100%;
+	background:white;
+    -webkit-background-size:cover; background-size:cover;
+}

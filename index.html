@@ -1,0 +1,103 @@
+<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+    <head>
+       
+        <script> 
+        (function () {
+            if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) 
+            {
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                    document.createTextNode(" @media screen and (orientation: landscape) {@-ms-viewport{width:auto!important}}")
+                );
+                msViewportStyle.appendChild(
+                    document.createTextNode(" @media screen and (orientation: portrait) {@-ms-viewport{width:auto!important;height:" + width + "px! important}}")
+                );
+                document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+
+            }
+            })();
+        </script>
+        <title>PrivacyCheq Button</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+        <link href="css/main.css" rel="stylesheet" type="text/css">
+       
+        <script type="text/javascript" charset="utf-8" src="intelxdk.js"></script>
+        <script type="text/javascript" charset="utf-8" src="xhr.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+        <script type="text/javascript">
+            
+        document.addEventListener('deviceready', onDeviceReady, false);
+                    
+        var uuid = null;
+        var iabRef = null;
+        var ref = null;
+            
+        function loadDoc(url){
+            var xhr = new XMLHttpRequest();
+            xhr.open('get',url,true);
+            xhr.onload = getReturnedData;
+            xhr.send();
+        }
+        function getReturnedData(data){
+            rtnData = data.srcElement.responseText;
+            finalData = JSON.parse(rtnData);
+            
+            if(finalData.rtn =='ok' && finalData.rtnmsg == 'accepted' ){
+
+                // Add code here for when the user has agreed to the terms.
+                document.getElementById('content').style.background = '#33CC33';
+                document.getElementById('robo').style.background = 'url("images/bot-blu.png") no-repeat';
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('playBtn').style.display = 'block';
+            }
+            else{ 
+                document.getElementById('loading').style.display = 'none';
+            }
+            document.getElementById('response').innerHTML += ' rtnMsg:'+finalData.rtnmsg+', rtn:'+finalData.rtn;
+        } 
+        function iabClose(event) {
+            // After the user has closed the window, we do a check on the uuid to see if they accepted it.
+            var url = 'http://developer.privacycheq.com/pcs_viewer/apps/0b062dce-c49a-4a92-a761-5c63d86688a7/check/'+uuid;
+            loadDoc(url);
+        }
+        function cliqWrap() {
+            // We open up the new window to the URL found in the CliqWrap dashboard.
+
+            // Add &userid= to the end to pass through the device ID so we can tell
+            // if the user accepted on the check call
+            var url = 'http://developer.privacycheq.com/pcs_viewer/viewer.htm?appid=0b062dce-c49a-4a92-a761-5c63d86688a7&userid='+uuid;
+            ref = window.open(url, '_blank', 'location=yes');
+
+            // Add en event listener to know when the window is closed.
+            ref.addEventListener('exit', iabClose);                 
+        }
+
+        function onDeviceReady(){
+            // create a unique identifier
+             uuid = device.uuid+'1';
+
+             // execute cliqwrap after loaded.
+             setTimeout('cliqWrap()',4000);
+        }
+        </script>
+        
+    </head>
+    
+    <body> 
+        <div id="content">
+           
+            <div id="response"></div>
+
+            <div id="robo"> </div>
+            <div id="status">
+                <div id="playBtn" ></div>
+                <div id="loading" ></div>
+            </div>
+
+        </div>
+    </body>
+</html>
